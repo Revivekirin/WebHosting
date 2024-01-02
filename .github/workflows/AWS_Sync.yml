@@ -1,0 +1,25 @@
+name: Sync File from S3
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Run every 6 hours
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Fetch file from S3
+        run: |
+          aws s3 cp s3://codei-00926417c3e944373/file_urls.txt .
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "kimwiz4352s@gmail.com"
+          git add file_urls.txt
+          git commit -m "Sync file_urls.txt from S3 [skip ci]"
+          git push
