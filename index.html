@@ -1,35 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Sample Deployment</title>
-  <style>
-    body {
-      color: #ffffff;
-      background-color: #0188cc;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-    
-    h1 {
-      font-size: 500%;
-      font-weight: normal;
-      margin-bottom: 0;
-    }
-    
-    h2 {
-      font-size: 200%;
-      font-weight: normal;
-      margin-bottom: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your S3 Bucket Files</title>
 </head>
 <body>
-  <div align="center">
-    <h1>Congratulations</h1>
-    <h2>This application was deployed using AWS CodeDeploy.</h2>
-    <p>For next steps, read the <a href="http://aws.amazon.com/documentation/codedeploy">AWS CodeDeploy Documentation</a>.</p>
-  </div>
+
+    <h1>Files in Your S3 Bucket</h1>
+
+    <label for="searchBox">Search:</label>
+    <input type="text" id="searchBox" oninput="filterFiles()" placeholder="Enter file name">
+
+    <ul id="fileList">
+        <!-- Links will be dynamically added here -->
+    </ul>
+
+    <script>
+        // Use vanilla JavaScript to fetch and process the text file
+        document.addEventListener('DOMContentLoaded', function() {
+            var textFileURL = 'https://codei-00926417c3e944373.s3.ap-northeast-2.amazonaws.com/file_urls.txt';
+            var s3BucketURL = 'https://codei-00926417c3e944373.s3.ap-northeast-2.amazonaws.com/';
+
+            fetch(textFileURL)
+                .then(response => response.text())
+                .then(data => {
+                    // Split the text into lines
+                    var lines = data.split('\n');
+
+                    // Iterate through each line and create a link
+                    lines.forEach(function(line) {
+                        if (line.trim() !== '') {
+                            var parts = line.split(/\s+/); // Split by whitespace
+                            var timestamp = parts[0] + ' ' + parts[1];
+                            var count = parts[2];
+                            var filePath = parts.slice(3).join(' ');
+
+                            appendFileLink(filePath, timestamp, count);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching the text file:', error));
+
+            function appendFileLink(filePath, timestamp, count) {
+                // Append a new list item with a clickable link to the ul
+                var fileName = filePath.split('/').pop();
+                var fileURL = s3BucketURL + filePath;
+                var listItem = document.createElement('li');
+                listItem.innerHTML = '<a href="' + fileURL + '" download>' + fileName + '</a> (' + timestamp + ', Count: ' + count + ')';
+                document.getElementById('fileList').appendChild(listItem);
+            }
+
+            // Function to filter files based on search input
+            window.filterFiles = function() {
+                var input, filter, ul, li, a, i, txtValue;
+                input = document.getElementById('searchBox');
+                filter = input.value.toUpperCase();
+                ul = document.getElementById('fileList');
+                li = ul.getElementsByTagName('li');
+
+                for (i = 0; i < li.length; i++) {
+                    a = li[i].getElementsByTagName('a')[0];
+                    txtValue = a.textContent || a.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = '';
+                    } else {
+                        li[i].style.display = 'none';
+                    }
+                }
+            };
+        });
+    </script>
+
 </body>
 </html>
+
+
+
+
+
 
