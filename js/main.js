@@ -1,3 +1,4 @@
+// main.js
 
 document.addEventListener('DOMContentLoaded', async function() {
     var textFileURL = 'file_urls.txt';
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
 
-        // Fetch the daily analysis data from GitHub
+        // Fetch the daily analysis data from GitHub using the function from graph.js
         const dailyAnalysisData = await fetchDailyAnalysisData();
 
         // Update the chart with new data
@@ -30,9 +31,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function appendFileLink(filePath, timestamp, count) {
         var fileName = filePath.split('/').pop();
-        var fileURL = s3BucketURL + filePath;
         var listItem = document.createElement('li');
-        listItem.innerHTML = '<a href="' + fileURL + '" download>' + fileName + '</a> (' + timestamp + ', Count: ' + count + ')';
+        listItem.innerHTML = '<a href="' + filePath + '" download>' + fileName + '</a> (' + timestamp + ', Count: ' + count + ')';
         document.getElementById('fileList').appendChild(listItem);
     }
 

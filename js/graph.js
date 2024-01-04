@@ -1,26 +1,57 @@
-// Assume you have a function to fetch daily analysis data from your backend/API
-// This function returns data in the format { date: '2022-01-05', count: 10 }
+// graph.js
+
 async function fetchDailyAnalysisData() {
     const baseUrl = 'https://github.com/Revivekirin/StaticWebHosting/tree/main/count';
-    const currentDate = new Date();
-    const currentDay = currentDate.toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
 
     try {
-        const response = await fetch(baseUrl + currentDay + '.txt');
-        const data = await response.text();
+        // Fetch the HTML page of the directory
+        const response = await fetch(baseUrl);
+        const html = await response.text();
 
-        // Parse the data from the file
-        const lines = data.split('\n');
-        const result = lines.map(line => {
-            const parts = line.split(/\s+/);
-            return { date: parts[0], count: parseInt(parts[1]) };
+        // Extract file names from the HTML
+        const fileNames = extractFileNames(html);
+
+        // Fetch data from each file
+        const dataPromises = fileNames.map(async fileName => {
+            const fileUrl = `${baseUrl}/${fileName}`;
+            const fileResponse = await fetch(fileUrl);
+            const fileData = await fileResponse.text();
+
+            // Parse the data from the file
+            const lines = fileData.split('\n');
+            return lines.map(line => {
+                const parts = line.split(/\s+/);
+                return { date: parts[0], count: parseInt(parts[1]) };
+            });
         });
+
+        // Wait for all promises to resolve
+        const dataArray = await Promise.all(dataPromises);
+
+        // Combine data from all files into a single array
+        const result = dataArray.flat();
 
         return result;
     } catch (error) {
         console.error('Error fetching daily analysis data:', error);
         return [];
     }
+}
+
+// Helper function to extract file names from HTML
+function extractFileNames(html) {
+    const regex = /<a href=".*?">(.*?)<\/a>/g;
+    const matches = html.matchAll(regex);
+    const fileNames = [];
+
+    for (const match of matches) {
+        const fileName = match[1];
+        if (fileName.endsWith('.txt')) {
+            fileNames.push(fileName);
+        }
+    }
+
+    return fileNames;
 }
 
 
