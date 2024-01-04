@@ -1,25 +1,32 @@
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     var textFileURL = 'file_urls.txt';
-    var s3BucketURL = '/'; // Assuming relative paths for Amplify deployment
 
-    fetch(textFileURL)
-        .then(response => response.text())
-        .then(data => {
-            var lines = data.split('\n');
+    try {
+        const dataResponse = await fetch(textFileURL);
+        const data = await dataResponse.text();
 
-            lines.forEach(function(line) {
-                if (line.trim() !== '') {
-                    var parts = line.split(/\s+/);
-                    var timestamp = parts[0] + ' ' + parts[1];
-                    var count = parts[2];
-                    var filePath = parts.slice(3).join(' ');
+        var lines = data.split('\n');
 
-                    appendFileLink(filePath, timestamp, count);
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching the text file:', error));
+        lines.forEach(function(line) {
+            if (line.trim() !== '') {
+                var parts = line.split(/\s+/);
+                var timestamp = parts[0] + ' ' + parts[1];
+                var count = parts[2];
+                var filePath = parts.slice(3).join(' ');
+
+                appendFileLink(filePath, timestamp, count);
+            }
+        });
+
+        // Fetch the daily analysis data from GitHub
+        const dailyAnalysisData = await fetchDailyAnalysisData();
+
+        // Update the chart with new data
+        createDailyAnalysisChart(dailyAnalysisData);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 
     function appendFileLink(filePath, timestamp, count) {
         var fileName = filePath.split('/').pop();
