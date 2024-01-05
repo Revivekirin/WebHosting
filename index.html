@@ -1,0 +1,78 @@
+
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Team-Mal</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- Custom styles -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <p class="navbar-logo">Team-Mal</p>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="database.html" title="malicious analyzer database" style="margin-left:20px;">Database</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html" title="About" style="margin-left:20px;">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="jumbotron bg-blue-light" >
+            <div class="container">
+              <div class="row" style="height: 500px;">
+                <div class="col-md-6" style="margin-top: auto; margin-bottom: auto; margin-right: 120px">
+                    <h1 class="display-3">Team-Mal<br>Malicious analyzer</h1>
+                    <p>공개된 정보를 활용하여 악성 코드를 수집하고 정적 분석하여 분류하는 프로젝트이다. <br><br></p>
+                    <p><a class="btn btn-primary btn-lg bg-grey-light" href="database.html" role="button">Team-Mal database &raquo;</a></p>
+                </div>
+                <div class="col-md-4"  style="margin-top: auto; margin-bottom: auto;">
+                    <h2>일일 분석량</h2>
+                    <p>하루에 분석되는 악성 코드 샘플량</p>
+                    <!-- Add canvas element for the chart -->
+                    <canvas id="dailyAnalysisChart"  width="400" height="400"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </main>
+
+    <footer class="container">
+     <hr>
+      <p>&copy; Team-Mal</p>
+    </footer>
+  </body>
+    <!-- Include main.js script -->
+    <script src="js/main.js"></script>
+
+    <!-- Include graph.js script -->
+    <script src="js/graph.js"></script>
+
+</html>

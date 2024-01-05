@@ -1,0 +1,106 @@
+
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Team-Mal</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- Custom styles -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue">
+          <div class="container">
+            <a class="navbar-brand" href="/">
+              <p class="navbar-logo">Team-Mal</p>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="database.html" title="malicious analyzer database" style="margin-left:20px;">Database</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html" title="About" style="margin-left:20px;">About</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    </header>
+
+
+
+    <!-- Main content -->
+    <main class="container container-lg">
+      <h1 class="mt-5">Team-Mal Database</h1>
+      <p> </p>
+      <br />
+        <div class="card-deck">
+   <div class="card text-center">
+     <div class="card-body">
+       <p><img src="images/routine.png" width="50px"></p>
+       <h5 class="card-title-bolder"><div id="displayDailyCount"></div></h5>
+       <p class="card-text">Analysis (past 24 hours)</p>
+     </div>
+   </div>
+   <div class="card text-center">
+     <div class="card-body">
+      <p><img src="images/all.png" width="50px"></p>
+       <h5 class="card-title-bolder"><div id="displayTotalCount"></div></h5>
+       <p class="card-text">Total Analysis</p>
+     </div>
+   </div>
+  </div>
+        <br />
+      <p>Using the form below, you can search for malware samples by a hash.</p>
+      <h2>Analyzer Database</h2>
+      <hr>
+        <div class="col-md-11" >
+            <div class="row">
+        <label style="margin-top:auto; margin-bottom:auto; margin-right:10px;" for="searchBox">Search:</label>
+        <input class="form-control" type="text" id="searchBox" oninput="filterFiles()" placeholder="Enter file name"></div>
+        </div>
+        <br>
+
+        <!-- Result table -->
+        <table id="samples" class="table table-sm table-hover table-bordered">
+            <thead>
+            <!-- <tr><th class="th1">Date (UTC)</th><th class="th2">SHA256 hash</th></tr> -->
+            <tr><th>목록</th></tr>
+            </thead>
+            <tbody id="fileList">
+            </tbody>
+      </table>
+
+        <!-- Pagination -->
+      <div id="pagination" class="text-center mt-3">
+          <!-- Pagination buttons will be dynamically added here by JavaScript -->
+      </div>
+    </main>
+
+    <footer class="container container-lg">
+      <hr>
+      <p>&copy; Team-Mal</p>
+    </footer>
+
+
+
+    <!-- Include main.js script -->
+    <script src="js/main.js"></script>
+    <script src="js/count.js"></script>
+
+  </body>
+</html>
