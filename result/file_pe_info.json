@@ -1,0 +1,137 @@
+{
+    "Entropy": 7.782800047495916,
+    "PE_Header_Info": {
+        "Dos_Header": {
+            "e_magic": "0x5a4d",
+            "e_lfanew": "0xe8"
+        },
+        "NT Header": {
+            "Signature": "0x4550"
+        },
+        "File Header": {
+            "Machine": "0x14c",
+            "Number of Sections": 3,
+            "Time Date Stamp": "2010-03-11 17:17:10",
+            "Characteristics": "0x103"
+        },
+        "Optional Header": {
+            "Magic": "0x10b",
+            "SizeOfCode": "0x11000",
+            "Address Entry point": "0x18f30",
+            "BaseOfCode": "0x9000",
+            "Image Base": "0x400000",
+            "Section Alignment": 4096,
+            "File Alignment": 512,
+            "Size of Image": 110592,
+            "SizeOfHeaders": 4096,
+            "Subsystem": 2
+        }
+    },
+    "Sections": [
+        {
+            "Name": "UPX0",
+            "Virtual_Size": 32768,
+            "Virtual_Address": "0x1000",
+            "Raw_Size": 0,
+            "Raw_Address": "0x400",
+            "Characteristics": "0xe0000080"
+        },
+        {
+            "Name": "UPX1",
+            "Virtual_Size": 69632,
+            "Virtual_Address": "0x9000",
+            "Raw_Size": 66048,
+            "Raw_Address": "0x400",
+            "Characteristics": "0xe0000040"
+        },
+        {
+            "Name": ".rsrc",
+            "Virtual_Size": 4096,
+            "Virtual_Address": "0x1a000",
+            "Raw_Size": 1024,
+            "Raw_Address": "0x10600",
+            "Characteristics": "0xc0000040"
+        }
+    ],
+    "Imports_and_Exports": {
+        "Imported_Functions": [
+            {
+                "DLL": "KERNEL32.DLL",
+                "Functions": [
+                    {
+                        "Function": "LoadLibraryA"
+                    },
+                    {
+                        "Function": "GetProcAddress"
+                    },
+                    {
+                        "Function": "VirtualProtect"
+                    },
+                    {
+                        "Function": "VirtualAlloc"
+                    },
+                    {
+                        "Function": "VirtualFree"
+                    },
+                    {
+                        "Function": "ExitProcess"
+                    }
+                ]
+            },
+            {
+                "DLL": "GDI32.dll",
+                "Functions": [
+                    {
+                        "Function": "CreateBitmap"
+                    }
+                ]
+            },
+            {
+                "DLL": "ntdll.dll",
+                "Functions": [
+                    {
+                        "Function": "memcpy"
+                    }
+                ]
+            },
+            {
+                "DLL": "USER32.dll",
+                "Functions": [
+                    {
+                        "Function": "ShowWindow"
+                    }
+                ]
+            }
+        ],
+        "Exported_Functions": [
+            {
+                "Function": "_strdup"
+            },
+            {
+                "Function": "free"
+            },
+            {
+                "Function": "malloc"
+            },
+            {
+                "Function": "rand"
+            }
+        ]
+    },
+    "Resource": [
+        {
+            "Resource_Type": "RT_RCDATA",
+            "Resources": []
+        }
+    ],
+    "TLS": {},
+    "Hash": {
+        "MD5_Hash": "5942ba36cf732097479c51986eee91ed",
+        "SHA1_Hash": "7cddef600cdae3890bbe2a2587e44de11bbc57bb",
+        "SHA256_Hash": "9459b0d6f7cdec6860c458944386896f78cb60befdd04fbeab0df5b6661a3f81",
+        "ImpHash": "0ae51079a486d3ed91ae413cfa97e4f6"
+    },
+    "contains_another_exe": null,
+    "is_upx_packed": false,
+    "file_type": null
+}

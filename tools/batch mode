@@ -1,0 +1,18 @@
+# Define the path to pestudio executable
+$pestudioPath = "C:\Path\To\pestudio.exe"
+
+# Define the path to the directory containing the files you want to analyze
+$filesDirectory = "C:\Path\To\Files"
+
+# Get a list of all executable files in the specified directory
+$executableFiles = Get-ChildItem -Path $filesDirectory -Filter *.exe
+
+# Loop through each executable file and run pestudio
+foreach ($file in $executableFiles) {
+    $output = & $pestudioPath -noheader -batchmode -scanfile $file.FullName
+
+    # Parse the output as needed and perform further actions
+    # For example, you might save the output to a file or process it in some way
+    # Here, we're just printing it to the console
+    Write-Output "Analysis for $($file.Name):`n$output`n"
+}
