@@ -4,12 +4,12 @@ async function fetchDailyAnalysisData() {
     const baseUrl = 'https://github.com/Revivekirin/StaticWebHosting/tree/main/count';
 
     try {
-        // Fetch the HTML page of the directory
+        // Fetch the list of files in the directory
         const response = await fetch(baseUrl);
         const html = await response.text();
 
-        // Extract file names from the HTML
-        const fileNames = extractFileNames(html);
+        // Extract file names from the HTML (simplified for demonstration)
+        const fileNames = html.match(/<a href=".*?">(.*?\.txt)<\/a>/g).map(match => match.match(/<a href=".*?">(.*?\.txt)<\/a>/)[1]);
 
         // Fetch data from each file
         const dataPromises = fileNames.map(async fileName => {
@@ -19,9 +19,13 @@ async function fetchDailyAnalysisData() {
 
             // Parse the data from the file
             const lines = fileData.split('\n');
+            const dateMatch = fileName.match(/^(\d{8}|\d{7})\.txt$/); // Match YYYYMMDD.txt or YYMMDD.txt
+            const date = dateMatch ? dateMatch[1] : null;
+            
+
             return lines.map(line => {
                 const parts = line.split(/\s+/);
-                return { date: parts[0], count: parseInt(parts[1]) };
+                return { date, count: parseInt(parts[1]) };
             });
         });
 
@@ -38,21 +42,6 @@ async function fetchDailyAnalysisData() {
     }
 }
 
-// Helper function to extract file names from HTML
-function extractFileNames(html) {
-    const regex = /<a href=".*?">(.*?)<\/a>/g;
-    const matches = html.matchAll(regex);
-    const fileNames = [];
-
-    for (const match of matches) {
-        const fileName = match[1];
-        if (fileName.endsWith('.txt')) {
-            fileNames.push(fileName);
-        }
-    }
-
-    return fileNames;
-}
 
 
 // Function to create and update the daily analysis chart
@@ -83,3 +72,4 @@ function createDailyAnalysisChart(data) {
         }
     });
 }
+

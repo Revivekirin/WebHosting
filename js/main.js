@@ -1,3 +1,4 @@
+
 // main.js
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         var lines = data.split('\n');
 
-        lines.forEach(function(line) {
+        lines.forEach(async function(line) {
             if (line.trim() !== '') {
                 var parts = line.split(/\s+/);
                 var timestamp = parts[0] + ' ' + parts[1];
@@ -23,8 +24,31 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Fetch the daily analysis data from GitHub using the function from graph.js
         const dailyAnalysisData = await fetchDailyAnalysisData();
 
-        // Update the chart with new data
-        createDailyAnalysisChart(dailyAnalysisData);
+        // Fetch specific count data from separate text files
+        const specificCountDataPromises = lines.map(async function(line) {
+            if (line.trim() !== '') {
+                var parts = line.split(/\s+/);
+                var date = parts[0];
+                var specificCountDataURL = `https://github.com/Revivekirin/StaticWebHosting/count/${date}.txt`;
+                const specificCountDataResponse = await fetch(specificCountDataURL);
+                const specificCountData = await specificCountDataResponse.text();
+                const specificCountLines = specificCountData.split('\n');
+
+                return specificCountLines.map(specificCountLine => {
+                    const specificCountParts = specificCountLine.split(/\s+/);
+                    return { date, count: parseInt(specificCountParts[1]) };
+                });
+            }
+        });
+
+        // Wait for all promises to resolve
+        const specificCountDataArray = await Promise.all(specificCountDataPromises);
+
+        // Combine specific count data with fetched data
+        const combinedData = [...dailyAnalysisData, ...specificCountDataArray.flat()];
+
+        // Update the chart with combined data
+        createDailyAnalysisChart(combinedData);
     } catch (error) {
         console.error('Error fetching data:', error);
     }
