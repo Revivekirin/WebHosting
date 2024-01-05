@@ -1,48 +1,25 @@
 // graph.js
 
 async function fetchDailyAnalysisData() {
-    const baseUrl = 'https://github.com/Revivekirin/StaticWebHosting/tree/main/count';
-
     try {
-        // Fetch the list of files in the directory
-        const response = await fetch(baseUrl);
-        const html = await response.text();
+        // Fetch the data from the CSV file
+        const csvFileUrl = 'https://raw.githubusercontent.com/Revivekirin/StaticWebHosting/main/count/DailyCount.csv';
+        const csvFileResponse = await fetch(csvFileUrl);
+        const csvFileData = await csvFileResponse.text();
 
-        // Extract file names from the HTML (simplified for demonstration)
-        const fileNames = html.match(/<a href=".*?">(.*?\.txt)<\/a>/g).map(match => match.match(/<a href=".*?">(.*?\.txt)<\/a>/)[1]);
-
-        // Fetch data from each file
-        const dataPromises = fileNames.map(async fileName => {
-            const fileUrl = `${baseUrl}/${fileName}`;
-            const fileResponse = await fetch(fileUrl);
-            const fileData = await fileResponse.text();
-
-            // Parse the data from the file
-            const lines = fileData.split('\n');
-            const dateMatch = fileName.match(/^(\d{8}|\d{7})\.txt$/); // Match YYYYMMDD.txt or YYMMDD.txt
-            const date = dateMatch ? dateMatch[1] : null;
-            
-
-            return lines.map(line => {
-                const parts = line.split(/\s+/);
-                return { date, count: parseInt(parts[1]) };
-            });
+        // Parse the data from the CSV file
+        const csvLines = csvFileData.split('\n');
+        const csvData = csvLines.slice(1).map(line => {
+            const parts = line.split(',');
+            return { date: parts[0], count: parseInt(parts[1]) };
         });
 
-        // Wait for all promises to resolve
-        const dataArray = await Promise.all(dataPromises);
-
-        // Combine data from all files into a single array
-        const result = dataArray.flat();
-
-        return result;
+        return csvData;
     } catch (error) {
         console.error('Error fetching daily analysis data:', error);
         return [];
     }
 }
-
-
 
 // Function to create and update the daily analysis chart
 function createDailyAnalysisChart(data) {
@@ -72,4 +49,5 @@ function createDailyAnalysisChart(data) {
         }
     });
 }
+
 

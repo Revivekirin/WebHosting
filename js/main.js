@@ -1,4 +1,3 @@
-
 // main.js
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -10,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         var lines = data.split('\n');
 
-        lines.forEach(async function(line) {
+        lines.forEach(function(line) {
             if (line.trim() !== '') {
                 var parts = line.split(/\s+/);
                 var timestamp = parts[0] + ' ' + parts[1];
@@ -23,32 +22,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // Fetch the daily analysis data from GitHub using the function from graph.js
         const dailyAnalysisData = await fetchDailyAnalysisData();
-
-        // Fetch specific count data from separate text files
-        const specificCountDataPromises = lines.map(async function(line) {
-            if (line.trim() !== '') {
-                var parts = line.split(/\s+/);
-                var date = parts[0];
-                var specificCountDataURL = `https://github.com/Revivekirin/StaticWebHosting/count/${date}.txt`;
-                const specificCountDataResponse = await fetch(specificCountDataURL);
-                const specificCountData = await specificCountDataResponse.text();
-                const specificCountLines = specificCountData.split('\n');
-
-                return specificCountLines.map(specificCountLine => {
-                    const specificCountParts = specificCountLine.split(/\s+/);
-                    return { date, count: parseInt(specificCountParts[1]) };
-                });
-            }
-        });
-
-        // Wait for all promises to resolve
-        const specificCountDataArray = await Promise.all(specificCountDataPromises);
-
-        // Combine specific count data with fetched data
-        const combinedData = [...dailyAnalysisData, ...specificCountDataArray.flat()];
+        console.log('Daily Analysis Data:', dailyAnalysisData);
 
         // Update the chart with combined data
-        createDailyAnalysisChart(combinedData);
+        createDailyAnalysisChart(dailyAnalysisData);
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -78,3 +55,4 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     };
 });
+
