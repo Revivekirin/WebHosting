@@ -1,7 +1,7 @@
 // count.js
 
 document.addEventListener('DOMContentLoaded', async function() {
-    const baseUrl = 'https://raw.githubusercontent.com/Revivekirin/StaticWebHosting/main/count';
+    const baseUrl = 'https://raw.githubusercontent.com/Revivekirin/WebHosting/main/count/';
 
 
     // Fetch the data from the CSV file
