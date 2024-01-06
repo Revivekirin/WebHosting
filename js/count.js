@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
     // Fetch the data from the CSV file
-    const csvFileUrl = 'https://raw.githubusercontent.com/Revivekirin/StaticWebHosting/main/count/DailyCount.csv';
+    const csvFileUrl = 'https://raw.githubusercontent.com/Revivekirin/WebHosting/main/count/DailyCount.csv';
 
 
     try{
